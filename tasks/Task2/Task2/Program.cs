@@ -10,10 +10,10 @@ namespace Task2
     {
         static void Main(string[] args)
         {
-            Circle a = new Circle(2.5);
-            Circle b = new Circle(10);
-            Circle c = new Circle(10);
-            b.UpdateRadius(5);
+            Circle a = new Circle(2.5,"Rot","Schwarz");
+            Circle b = new Circle(10,"Blau","Weiss");
+            Circle c = new Circle(10,"Gelb","Grün");
+            b.Radius = 5;
             a.Print();
             b.Print();
             c.Print();
@@ -22,20 +22,36 @@ namespace Task2
     }
     class Circle
     {
-        public double radius;
-        private double area, circumference;
+        private double PRadius;
 
-        public Circle(double newRadius)
+        public double Radius {
+            get { return PRadius; }
+
+            set {
+                if (value < 0) throw new ArgumentOutOfRangeException("Lenght must be a positive Number");
+                PRadius = value;
+                area = CalcArea(value);
+                circumference = CalcCircumference(value);
+            }
+              
+                }
+
+        public double area { get; private set; }
+        public double circumference { get; private set; }
+
+        public string int_color;
+        public string b_color;
+
+
+        public Circle(double newRadius, string newint_color, string newb_color)
         {
+            int_color = newint_color;
+            b_color = newb_color;
             if (newRadius < 0) throw new ArgumentOutOfRangeException("Lenght must be a positive Number");
-            radius = newRadius;
+            PRadius = newRadius;
             area = CalcArea(newRadius);
             circumference = CalcCircumference(newRadius);
         }
-
-
-
-
         private double CalcArea(double r)
         {
             return r * r * Math.PI;
@@ -47,13 +63,13 @@ namespace Task2
         public void UpdateRadius(double newRadius)
         { 
             if (newRadius< 0) throw new ArgumentOutOfRangeException("Lenght must be a positive Number");
-            radius = newRadius;
+            Radius = newRadius;
             area = CalcArea(newRadius);
             circumference = CalcCircumference(newRadius);
         }
-    public void Print()
+        public void Print()
         {
-            Console.WriteLine("Ein Kreis mit dem Radius " + radius + " hat den Umfang: " + circumference + " und die Fläche: " + area);
+            Console.WriteLine("Der Kreis ist " + int_color + ", sein Rand ist " +b_color+". Er hat den Radius " + PRadius + ", den Umfang: " + circumference + " und die Fläche: " + area);
         }
     }
 }
