@@ -19,21 +19,21 @@ namespace Task2
 
         static void Main(string[] args)
         {
-            Circle a = new Circle(2.5);
-            Circle b = new Circle(10);
-            Circle c = new Circle(10);
-            Square x = new Square(2.5);
-            Square y = new Square(10);
-            Square z = new Square(10);
 
-            b.UpdateRadius(5);
-            a.Print();
-            b.Print();
-            c.Print();
-            z.UpdateSide(5);
-            x.Print();
-            y.Print();
-            z.Print();
+            var shapes = new IShape[] 
+            {new Circle(2.5),
+             new Circle(5),
+             new Circle(10),
+             new Square(2.5),
+             new Square(5),
+             new Square(10)
+            };
+
+            for (int i = 0;i<6;i++)
+            {
+                shapes[i].Print();
+
+            }
             Console.ReadLine();
         } 
     }
