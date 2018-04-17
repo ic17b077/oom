@@ -28,20 +28,15 @@ namespace Task2
             var producer = new Subject<double>();
             producer.Subscribe(x => a.UpdateRadius(x));
 
-            for (var i = 0; i < 100; i += 10)
+
+            Task<double> result = Task.Run(() => GetCylinderVolFromCircleAsync(5, 5));
+            for (var i = 0; i < 110; i += 10)
             {
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
                 producer.OnNext(i);
                 a.Print();
             }
-
-
-
-            Task<double> result = Task.Run(() => getAreaofCircle(10));
-            result.ContinueWith(t => Console.WriteLine("Ein Kreis mit dem Radius 10 hat die Fläche:" + t.Result));
-
-            Task<double> cylinder = Task.Run(() => getCylinderVolFromCircleAsync(10, 10));
-           cylinder.ContinueWith(t => Console.WriteLine("Ein Zylinder mit dem Radius 10 und der Höhe 10 hat das Volumen:" + t.Result));
+            result.ContinueWith(t => Console.WriteLine("Ein Zylinder mit dem Radius 5 und der Höhe 5 hat das Volumen:" + t.Result));
 
 
             //string s = JsonConvert.SerializeObject(a);
@@ -61,19 +56,22 @@ namespace Task2
             Console.ReadLine();
         }
 
-        static double getAreaofCircle(double radius)
+        static double GetAreaofCircle(double radius)
         {
             double area;
             Circle x = new Circle(radius);
             area = x.area;
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(10));
             return area;
         }
-        static async Task<double> getCylinderVolFromCircleAsync(double radius, double height)
+        static async Task<double> GetCylinderVolFromCircleAsync(double radius, double height)
         {
             double area;
-            area = await Task.Run(() => getAreaofCircle(10));
-            double volume = area * height;
+            double volume = 1;
+            Console.WriteLine("Starting slow calculation");
+            area = await Task.Run(() => GetAreaofCircle(10));
+            Console.WriteLine("Slow calculation finished");
+            volume = area * height;
             return volume;
         }
     }
